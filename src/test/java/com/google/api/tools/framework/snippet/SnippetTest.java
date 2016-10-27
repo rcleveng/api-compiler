@@ -61,18 +61,7 @@ public class SnippetTest extends BaselineTestCase {
   private SnippetSet createFromResource(String fileName) {
     try {
       final String root = getClass().getPackage().getName().replace('.', '/') + "/testdata";
-
-      InputSupplier supplier = new InputSupplier() {
-        @Override public Iterable<String> readInput(String snippetSetName) throws IOException {
-          try {
-            return Resources.readLines(Resources.getResource(root + "/" + snippetSetName), UTF_8);
-          } catch (Exception e) {
-            throw new IOException(e);
-          }
-        }
-      };
-
-      return snippets = SnippetSet.parse(supplier, fileName);
+      return snippets = SnippetSet.parse(SnippetSet.resourceInputSupplier(root), fileName);
     } catch (ParseException e) {
       testOutput().println("errors!!");
       testOutput().println(e.getMessage());
